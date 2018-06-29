@@ -5,31 +5,26 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mnvsngv.cookbook.R;
-import com.mnvsngv.cookbook.fragments.MyRecipeRecyclerViewAdapter;
-import com.mnvsngv.cookbook.fragments.RecipeListFragment;
+import com.mnvsngv.cookbook.fragments.adapter.MyRecipeRecyclerViewAdapter;
 import com.mnvsngv.cookbook.models.Recipe;
 import com.mnvsngv.cookbook.util.JsonUtils;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class BackendApi {

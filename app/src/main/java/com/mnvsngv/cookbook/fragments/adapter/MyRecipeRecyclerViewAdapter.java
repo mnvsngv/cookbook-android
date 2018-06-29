@@ -1,4 +1,4 @@
-package com.mnvsngv.cookbook.fragments;
+package com.mnvsngv.cookbook.fragments.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

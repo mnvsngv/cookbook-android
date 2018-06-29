@@ -12,9 +12,8 @@ import android.view.ViewGroup;
 
 import com.mnvsngv.cookbook.R;
 import com.mnvsngv.cookbook.backend.BackendApi;
+import com.mnvsngv.cookbook.fragments.adapter.MyRecipeRecyclerViewAdapter;
 import com.mnvsngv.cookbook.models.Recipe;
-
-import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
