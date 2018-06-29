@@ -38,7 +38,7 @@ public class BackendApi {
     private static final String GET_ALL_RECIPES_ENDPOINT = "/recipes/getAll";
     private static RequestQueue queue;
 
-    public static List<Recipe> recipes = Arrays.asList(new Recipe("A", "B", "C", "D"));
+    public static List<Recipe> recipes = new ArrayList<>();
 
     public static void initialize(Context context) {
         // Instantiate the RequestQueue.
@@ -90,7 +90,9 @@ public class BackendApi {
             public void onResponse(JSONArray response) {
                 Log.i("LOG_VOLLEY", "Response: " + response.toString());
                 Type type = new TypeToken<List<Recipe>>() {}.getType();
-                recipes = new Gson().fromJson(response.toString(), type);
+                recipes.clear();
+                List<Recipe> newList = new Gson().fromJson(response.toString(), type);
+                recipes.addAll(newList);
                 adapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
