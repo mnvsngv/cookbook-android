@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.mnvsngv.cookbook.R;
 import com.mnvsngv.cookbook.backend.BackendApi;
@@ -47,7 +46,7 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener 
                         .getText().toString();
 
                 Recipe recipe = new Recipe(recipeName, ingredients, spices, steps);
-                BackendApi.addRecipe(this.getContext(), this.getActivity(), recipe);
+                BackendApi.addRecipe(this.getActivity(), recipe);
                 break;
 
             case R.id.add_recipe_clear:
