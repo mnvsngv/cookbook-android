@@ -14,14 +14,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.mnvsngv.cookbook.backend.BackendApi;
 import com.mnvsngv.cookbook.fragments.AddRecipeFragment;
 import com.mnvsngv.cookbook.R;
 import com.mnvsngv.cookbook.fragments.RecipeListFragment;
+import com.mnvsngv.cookbook.models.Recipe;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, RecipeListFragment.OnListFragmentInteractionListener{
 
     private BackendApi backendApi;
 
@@ -39,6 +41,7 @@ public class HomeActivity extends AppCompatActivity
         toggle.syncState();
 
         backendApi = new BackendApi(this.getApplicationContext());
+        RecipeListFragment.setInteractionListener(this);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -109,5 +112,10 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onListFragmentInteraction(Recipe item) {
+        Toast.makeText(this, item.getName(), Toast.LENGTH_SHORT).show();
     }
 }

@@ -46,6 +46,10 @@ public class RecipeListFragment extends Fragment {
         return fragment;
     }
 
+    public static void setInteractionListener(OnListFragmentInteractionListener listener) {
+        mListener = listener;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
