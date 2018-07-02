@@ -1,5 +1,6 @@
 package com.mnvsngv.cookbook.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mnvsngv.cookbook.backend.BackendApi;
@@ -21,6 +23,8 @@ import com.mnvsngv.cookbook.fragments.AddRecipeFragment;
 import com.mnvsngv.cookbook.R;
 import com.mnvsngv.cookbook.fragments.RecipeListFragment;
 import com.mnvsngv.cookbook.models.Recipe;
+
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RecipeListFragment.OnListFragmentInteractionListener{
@@ -116,6 +120,8 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(Recipe item) {
-        Toast.makeText(this, item.getName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, RecipeViewActivity.class);
+        intent.putExtra(EXTRA_MESSAGE, item.getName());
+        startActivity(intent);
     }
 }
