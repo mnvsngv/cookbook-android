@@ -1,6 +1,7 @@
 package com.mnvsngv.cookbook.activities;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -22,7 +23,7 @@ import com.mnvsngv.cookbook.fragments.RecipeListFragment;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private RecyclerView.Adapter adapter;
+    private BackendApi backendApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class HomeActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        BackendApi.initialize(this);
+        backendApi = new BackendApi(this.getApplicationContext());
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -76,7 +77,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -88,7 +89,7 @@ public class HomeActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_recipe_list:
-                fragment = new RecipeListFragment();
+                fragment = RecipeListFragment.newInstance(backendApi);
                 break;
 
             case R.id.nav_search_recipes:

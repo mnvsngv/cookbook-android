@@ -22,12 +22,13 @@ import com.mnvsngv.cookbook.util.JsonUtils;
 
 import org.json.JSONArray;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BackendApi {
+public class BackendApi implements Serializable {
     private static final String BASE_URI = "https://cookbook-208607.appspot.com";
     private static final String ADD_RECIPE_ENDPOINT = "/recipes/add";
     private static final String GET_ALL_RECIPES_ENDPOINT = "/recipes/getAll";
@@ -35,7 +36,7 @@ public class BackendApi {
 
     public static List<Recipe> recipes = new ArrayList<>();
 
-    public static void initialize(Context context) {
+    public BackendApi(Context context) {
         // Instantiate the RequestQueue.
         queue = Volley.newRequestQueue(context);
     }
@@ -76,7 +77,7 @@ public class BackendApi {
         queue.add(stringRequest);
     }
 
-    public static void getAllRecipes(final MyRecipeRecyclerViewAdapter adapter) {
+    public void getAllRecipes(final MyRecipeRecyclerViewAdapter adapter) {
         String url = BASE_URI + GET_ALL_RECIPES_ENDPOINT;
         JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.GET, url, null,
         new Response.Listener<JSONArray>() {

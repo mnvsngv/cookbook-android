@@ -2,6 +2,8 @@ package com.mnvsngv.cookbook.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,8 @@ import com.mnvsngv.cookbook.backend.BackendApi;
 import com.mnvsngv.cookbook.fragments.adapter.MyRecipeRecyclerViewAdapter;
 import com.mnvsngv.cookbook.models.Recipe;
 
+import java.io.Serializable;
+
 /**
  * A fragment representing a list of Items.
  * <p/>
@@ -23,10 +27,8 @@ import com.mnvsngv.cookbook.models.Recipe;
  */
 public class RecipeListFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
+    private static final String BACKEND_API = "backendApi";
+    private BackendApi backendApi = null;
     private static OnListFragmentInteractionListener mListener;
 
     /**
@@ -36,12 +38,10 @@ public class RecipeListFragment extends Fragment {
     public RecipeListFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static RecipeListFragment newInstance(int columnCount) {
+    public static RecipeListFragment newInstance(BackendApi backendApi) {
         RecipeListFragment fragment = new RecipeListFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putSerializable(BACKEND_API, backendApi);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,27 +51,26 @@ public class RecipeListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            backendApi = (BackendApi) getArguments().getSerializable(BACKEND_API);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
+
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
             MyRecipeRecyclerViewAdapter mAdapter = new MyRecipeRecyclerViewAdapter(BackendApi.recipes, mListener);
+
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(mAdapter);
-            BackendApi.getAllRecipes(mAdapter);
+
+            backendApi.getAllRecipes(mAdapter);
         }
         return view;
     }
