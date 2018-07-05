@@ -12,7 +12,9 @@ public class Utils {
             builder.append(string).append(", ");
         }
 
-        builder.delete(builder.length() - 2, builder.length());
+        if(builder.length() > 0) {
+            builder.delete(builder.length() - 2, builder.length());
+        }
         return builder.toString();
     }
 

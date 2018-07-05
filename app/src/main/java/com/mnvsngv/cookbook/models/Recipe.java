@@ -18,6 +18,10 @@ public class Recipe implements Serializable {
         this.steps = steps;
     }
 
+    public String toString() {
+        return name;
+    }
+
     public String getName() {
         return name;
     }

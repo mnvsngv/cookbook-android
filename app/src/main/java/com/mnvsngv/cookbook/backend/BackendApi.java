@@ -31,11 +31,13 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class BackendApi implements Serializable {
     private static final String BASE_URI = "https://cookbook-208607.appspot.com";
     private static final String ADD_RECIPE_ENDPOINT = "/recipes/add";
     private static final String GET_ALL_RECIPES_ENDPOINT = "/recipes/getAll";
+    private static final String DELETE_RECIPE_ENDPOINT = "/recipes/delete";
     private static RequestQueue queue;
 
     public List<Recipe> recipes = new ArrayList<>();
@@ -117,5 +119,51 @@ public class BackendApi implements Serializable {
         });
 
         queue.add(jsonObjectRequest);
+    }
+
+    public void deleteRecipes(Context context, final List<String> recipeList) {
+        final ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Deleting...");
+        progressDialog.show();
+
+        final AtomicInteger counter = new AtomicInteger(0);
+
+        List<Request> deleteRequests = new ArrayList<>();
+
+        for(String recipe : recipeList) {
+            String url = BASE_URI + DELETE_RECIPE_ENDPOINT + "/" + recipe;
+            StringRequest jsonObjectRequest = new StringRequest(Request.Method.DELETE, url,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i("LOG_VOLLEY", "Response: " + response);
+                        multiRequestDismiss(counter, recipeList.size(), progressDialog);
+                    }
+                }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("LOG_VOLLEY", error.toString());
+                    progressDialog.dismiss();
+                }
+            });
+            deleteRequests.add(jsonObjectRequest);
+        }
+
+        for(Request request : deleteRequests) {
+            queue.add(request);
+        }
+    }
+
+    private void multiRequestDismiss(AtomicInteger counter, int count, ProgressDialog dialog) {
+        int current = counter.get();
+        int result = counter.incrementAndGet();
+        while(result != current+1) {
+            result = counter.incrementAndGet();
+        }
+        if(counter.get() == count) {
+            dialog.dismiss();
+        }
     }
 }

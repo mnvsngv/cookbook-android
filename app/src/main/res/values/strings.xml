@@ -16,4 +16,5 @@
     <string name="add_recipe_save">Save</string>
     <string name="add_recipe_clear">Clear</string>
     <string name="title_activity_recipe_view">RecipeViewActivity</string>
+    <string name="delete_recipe_button">Delete Selected</string>
 </resources>

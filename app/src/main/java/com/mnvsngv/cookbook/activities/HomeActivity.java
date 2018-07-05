@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.mnvsngv.cookbook.backend.BackendApi;
 import com.mnvsngv.cookbook.fragments.AddRecipeFragment;
 import com.mnvsngv.cookbook.R;
+import com.mnvsngv.cookbook.fragments.DeleteRecipeFragment;
 import com.mnvsngv.cookbook.fragments.RecipeListFragment;
 import com.mnvsngv.cookbook.models.Recipe;
 import com.mnvsngv.cookbook.util.Constants;
@@ -108,6 +109,7 @@ public class HomeActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_delete_recipes:
+                fragment = DeleteRecipeFragment.newInstance(backendApi);
                 break;
         }
 
