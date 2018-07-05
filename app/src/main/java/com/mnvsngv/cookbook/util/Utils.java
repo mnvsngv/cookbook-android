@@ -5,9 +5,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Utils {
-    /*public static String convertListToCsv(List<String> list) {
-        return String.join(", ", list);
-    }*/
+    public static String convertListToCsv(List<String> list) {
+        StringBuilder builder = new StringBuilder();
+
+        for(String string : list) {
+            builder.append(string).append(", ");
+        }
+
+        builder.delete(builder.length() - 2, builder.length());
+        return builder.toString();
+    }
 
     public static List<String> convertCsvToList(String csv) {
         if(csv.length() == 0) return new ArrayList<>();

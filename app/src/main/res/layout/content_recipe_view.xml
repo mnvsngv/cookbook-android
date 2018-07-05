@@ -1,16 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activities.RecipeViewActivity"
     tools:showIn="@layout/activity_recipe_view">
 
     <TextView
-        android:id="@+id/recipe_view_name"
-        android:layout_width="wrap_content"
+        android:id="@+id/recipe_view_ingredients_label"
+        style="@style/TextLabel"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="" />
-</android.support.constraint.ConstraintLayout>
+        android:labelFor="@+id/recipe_view_ingredients"
+        android:text="@string/ingredients" />
+
+    <TextView
+        android:id="@+id/recipe_view_ingredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/recipe_view_spices_label"
+        style="@style/TextLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/recipe_view_spices"
+        android:text="@string/spices" />
+
+    <TextView
+        android:id="@+id/recipe_view_spices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/recipe_view_steps_label"
+        style="@style/TextLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/recipe_view_steps"
+        android:text="@string/steps" />
+
+    <TextView
+        android:id="@+id/recipe_view_steps"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

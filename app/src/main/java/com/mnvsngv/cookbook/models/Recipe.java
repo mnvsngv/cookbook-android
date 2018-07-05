@@ -2,9 +2,10 @@ package com.mnvsngv.cookbook.models;
 
 import com.mnvsngv.cookbook.util.Utils;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Recipe {
+public class Recipe implements Serializable {
     private String name;
     private List<String> ingredients;
     private List<String> spices;

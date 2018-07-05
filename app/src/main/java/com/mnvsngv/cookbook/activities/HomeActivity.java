@@ -23,6 +23,7 @@ import com.mnvsngv.cookbook.fragments.AddRecipeFragment;
 import com.mnvsngv.cookbook.R;
 import com.mnvsngv.cookbook.fragments.RecipeListFragment;
 import com.mnvsngv.cookbook.models.Recipe;
+import com.mnvsngv.cookbook.util.Constants;
 
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
@@ -121,7 +122,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(Recipe item) {
         Intent intent = new Intent(this, RecipeViewActivity.class);
-        intent.putExtra(EXTRA_MESSAGE, item.getName());
+        intent.putExtra(Constants.RECIPE_KEY, item);
         startActivity(intent);
     }
 }

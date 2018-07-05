@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/add_recipe_ingredients"
+        android:hint="@string/ingredients"
         android:inputType="textPersonName"
         android:singleLine="true" />
 
@@ -31,17 +31,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/add_recipe_spices"
+        android:hint="@string/spices"
         android:inputType="textPersonName"
         android:singleLine="true" />
 
     <EditText
         android:id="@+id/add_recipe_steps"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:ems="10"
-        android:hint="@string/add_recipe_steps"
+        android:hint="@string/steps"
         android:inputType="textMultiLine" />
 
     <LinearLayout
@@ -51,6 +51,7 @@
 
         <Button
             android:id="@+id/add_recipe_save"
+            style="?android:attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -58,6 +59,7 @@
 
         <Button
             android:id="@+id/add_recipe_clear"
+            style="?android:attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

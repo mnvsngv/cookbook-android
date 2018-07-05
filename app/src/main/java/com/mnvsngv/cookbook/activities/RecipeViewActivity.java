@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.mnvsngv.cookbook.R;
+import com.mnvsngv.cookbook.models.Recipe;
+import com.mnvsngv.cookbook.util.Constants;
+import com.mnvsngv.cookbook.util.Utils;
 
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
@@ -31,9 +34,16 @@ public class RecipeViewActivity extends AppCompatActivity {
             }
         });
 
+        TextView ingredientsView = findViewById(R.id.recipe_view_ingredients);
+        TextView spicesView = findViewById(R.id.recipe_view_spices);
+        TextView stepsView = findViewById(R.id.recipe_view_steps);
+
         Intent intent = getIntent();
-        TextView text = findViewById(R.id.recipe_view_name);
-        text.setText(intent.getStringExtra(EXTRA_MESSAGE));
+        Recipe recipe = (Recipe) intent.getSerializableExtra(Constants.RECIPE_KEY);
+
+        ingredientsView.setText(Utils.convertListToCsv(recipe.getIngredients()));
+        spicesView.setText(Utils.convertListToCsv(recipe.getSpices()));
+        stepsView.setText(recipe.getSteps());
     }
 
 }
