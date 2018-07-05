@@ -1,6 +1,7 @@
 package com.mnvsngv.cookbook.backend;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -77,7 +78,11 @@ public class BackendApi implements Serializable {
         queue.add(stringRequest);
     }
 
-    public void getAllRecipes(final MyRecipeRecyclerViewAdapter adapter) {
+    public void getAllRecipes(Context context, final MyRecipeRecyclerViewAdapter adapter) {
+        final ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
         String url = BASE_URI + GET_ALL_RECIPES_ENDPOINT;
         JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(Request.Method.GET, url, null,
         new Response.Listener<JSONArray>() {
@@ -90,12 +95,14 @@ public class BackendApi implements Serializable {
                 List<Recipe> newList = new Gson().fromJson(response.toString(), type);
                 recipes.addAll(newList);
                 adapter.notifyDataSetChanged();
+                progressDialog.dismiss();
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("LOG_VOLLEY", error.toString());
+                progressDialog.dismiss();
             }
         });
 

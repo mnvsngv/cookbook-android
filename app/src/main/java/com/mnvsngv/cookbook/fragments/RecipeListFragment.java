@@ -2,10 +2,8 @@ package com.mnvsngv.cookbook.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,8 +14,6 @@ import com.mnvsngv.cookbook.R;
 import com.mnvsngv.cookbook.backend.BackendApi;
 import com.mnvsngv.cookbook.fragments.adapter.MyRecipeRecyclerViewAdapter;
 import com.mnvsngv.cookbook.models.Recipe;
-
-import java.io.Serializable;
 
 /**
  * A fragment representing a list of Items.
@@ -74,7 +70,7 @@ public class RecipeListFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(mAdapter);
 
-            backendApi.getAllRecipes(mAdapter);
+            backendApi.getAllRecipes(this.getContext(), mAdapter);
         }
         return view;
     }
