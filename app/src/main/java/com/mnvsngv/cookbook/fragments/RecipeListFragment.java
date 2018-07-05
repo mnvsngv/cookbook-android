@@ -14,6 +14,7 @@ import com.mnvsngv.cookbook.R;
 import com.mnvsngv.cookbook.backend.BackendApi;
 import com.mnvsngv.cookbook.fragments.adapter.MyRecipeRecyclerViewAdapter;
 import com.mnvsngv.cookbook.models.Recipe;
+import com.mnvsngv.cookbook.util.Constants;
 
 /**
  * A fragment representing a list of Items.
@@ -23,7 +24,6 @@ import com.mnvsngv.cookbook.models.Recipe;
  */
 public class RecipeListFragment extends Fragment {
 
-    private static final String BACKEND_API = "backendApi";
     private BackendApi backendApi = null;
     private static OnListFragmentInteractionListener mListener;
 
@@ -37,7 +37,7 @@ public class RecipeListFragment extends Fragment {
     public static RecipeListFragment newInstance(BackendApi backendApi) {
         RecipeListFragment fragment = new RecipeListFragment();
         Bundle args = new Bundle();
-        args.putSerializable(BACKEND_API, backendApi);
+        args.putSerializable(Constants.BACKEND_API, backendApi);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,7 +51,7 @@ public class RecipeListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            backendApi = (BackendApi) getArguments().getSerializable(BACKEND_API);
+            backendApi = (BackendApi) getArguments().getSerializable(Constants.BACKEND_API);
         }
     }
 
@@ -65,7 +65,7 @@ public class RecipeListFragment extends Fragment {
             Context context = view.getContext();
 
             RecyclerView recyclerView = (RecyclerView) view;
-            MyRecipeRecyclerViewAdapter mAdapter = new MyRecipeRecyclerViewAdapter(BackendApi.recipes, mListener);
+            MyRecipeRecyclerViewAdapter mAdapter = new MyRecipeRecyclerViewAdapter(backendApi.recipes, mListener);
 
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(mAdapter);

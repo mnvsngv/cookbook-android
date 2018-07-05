@@ -97,7 +97,7 @@ public class HomeActivity extends AppCompatActivity
 
         switch(id) {
             case R.id.nav_add_recipe:
-                fragment = new AddRecipeFragment();
+                fragment = AddRecipeFragment.newInstance(backendApi);
                 break;
 
             case R.id.nav_recipe_list:

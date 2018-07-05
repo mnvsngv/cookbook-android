@@ -3,7 +3,10 @@ package com.mnvsngv.cookbook.backend;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -35,14 +38,18 @@ public class BackendApi implements Serializable {
     private static final String GET_ALL_RECIPES_ENDPOINT = "/recipes/getAll";
     private static RequestQueue queue;
 
-    public static List<Recipe> recipes = new ArrayList<>();
+    public List<Recipe> recipes = new ArrayList<>();
 
     public BackendApi(Context context) {
         // Instantiate the RequestQueue.
         queue = Volley.newRequestQueue(context);
     }
 
-    public static void addRecipe(final Activity activity, Recipe recipe) {
+    public void addRecipe(final Context context, final Button button, Recipe recipe) {
+        final ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Saving...");
+        progressDialog.show();
+
         String url = BASE_URI + ADD_RECIPE_ENDPOINT;
         final String jsonBody = JsonUtils.convertObjectToJson(recipe);
 
@@ -50,13 +57,15 @@ public class BackendApi implements Serializable {
             @Override
             public void onResponse(String response) {
                 Log.i("LOG_VOLLEY", response);
-                Toast.makeText(activity.getApplicationContext(), "Saved successfully!", Toast.LENGTH_SHORT).show();
-                activity.findViewById(R.id.add_recipe_clear).callOnClick();
+                Toast.makeText(context, "Saved successfully!", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+                button.callOnClick();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("LOG_VOLLEY", error.toString());
+                progressDialog.dismiss();
             }
         }) {
             @Override
@@ -70,6 +79,7 @@ public class BackendApi implements Serializable {
                     return jsonBody == null ? null : jsonBody.getBytes("utf-8");
                 } catch (UnsupportedEncodingException uee) {
                     VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", jsonBody, "utf-8");
+                    progressDialog.dismiss();
                     return null;
                 }
             }

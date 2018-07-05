@@ -23,7 +23,6 @@ public class RecipeViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -34,16 +33,19 @@ public class RecipeViewActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = getIntent();
+        Recipe recipe = (Recipe) intent.getSerializableExtra(Constants.RECIPE_KEY);
+
         TextView ingredientsView = findViewById(R.id.recipe_view_ingredients);
         TextView spicesView = findViewById(R.id.recipe_view_spices);
         TextView stepsView = findViewById(R.id.recipe_view_steps);
 
-        Intent intent = getIntent();
-        Recipe recipe = (Recipe) intent.getSerializableExtra(Constants.RECIPE_KEY);
-
         ingredientsView.setText(Utils.convertListToCsv(recipe.getIngredients()));
         spicesView.setText(Utils.convertListToCsv(recipe.getSpices()));
         stepsView.setText(recipe.getSteps());
+
+        toolbar.setTitle(recipe.getName());
+        setSupportActionBar(toolbar);
     }
 
 }
