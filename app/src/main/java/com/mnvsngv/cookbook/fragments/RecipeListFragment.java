@@ -70,7 +70,7 @@ public class RecipeListFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(mAdapter);
 
-            backendApi.getAllRecipes(this.getContext(), mAdapter);
+            backendApi.getAllRecipesRecyclerViewAdapter(this.getContext(), mAdapter);
         }
         return view;
     }
@@ -86,7 +86,6 @@ public class RecipeListFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onListFragmentInteraction(Recipe item);
     }
 }

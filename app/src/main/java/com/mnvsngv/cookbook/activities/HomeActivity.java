@@ -1,6 +1,7 @@
 package com.mnvsngv.cookbook.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -10,12 +11,9 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mnvsngv.cookbook.backend.BackendApi;
@@ -23,13 +21,14 @@ import com.mnvsngv.cookbook.fragments.AddRecipeFragment;
 import com.mnvsngv.cookbook.R;
 import com.mnvsngv.cookbook.fragments.DeleteRecipeFragment;
 import com.mnvsngv.cookbook.fragments.RecipeListFragment;
+import com.mnvsngv.cookbook.fragments.SearchRecipesFragment;
 import com.mnvsngv.cookbook.models.Recipe;
 import com.mnvsngv.cookbook.util.Constants;
 
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
-
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, RecipeListFragment.OnListFragmentInteractionListener{
+        implements NavigationView.OnNavigationItemSelectedListener,
+        RecipeListFragment.OnListFragmentInteractionListener,
+        SearchRecipesFragment.OnFragmentInteractionListener {
 
     private BackendApi backendApi;
 
@@ -48,6 +47,7 @@ public class HomeActivity extends AppCompatActivity
 
         backendApi = new BackendApi(this.getApplicationContext());
         RecipeListFragment.setInteractionListener(this);
+        SearchRecipesFragment.setInteractionListener(this);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -106,6 +106,7 @@ public class HomeActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_search_recipes:
+                fragment = SearchRecipesFragment.newInstance(backendApi);
                 break;
 
             case R.id.nav_delete_recipes:
@@ -126,9 +127,18 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(Recipe item) {
+    public void onListFragmentInteraction(Recipe recipe) {
+        startRecipeViewActivityFor(recipe);
+    }
+
+    @Override
+    public void onFragmentInteraction(Recipe recipe) {
+        startRecipeViewActivityFor(recipe);
+    }
+
+    private void startRecipeViewActivityFor(Recipe recipe) {
         Intent intent = new Intent(this, RecipeViewActivity.class);
-        intent.putExtra(Constants.RECIPE_KEY, item);
+        intent.putExtra(Constants.RECIPE_KEY, recipe);
         startActivity(intent);
     }
 }

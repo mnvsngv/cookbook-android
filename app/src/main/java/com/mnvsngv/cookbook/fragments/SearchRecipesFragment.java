@@ -1,6 +1,5 @@
 package com.mnvsngv.cookbook.fragments;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,57 +9,61 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.mnvsngv.cookbook.R;
 import com.mnvsngv.cookbook.backend.BackendApi;
 import com.mnvsngv.cookbook.models.Recipe;
 import com.mnvsngv.cookbook.util.Constants;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link DeleteRecipeFragment.OnFragmentInteractionListener} interface
+ * {@link SearchRecipesFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link DeleteRecipeFragment#newInstance} factory method to
+ * Use the {@link SearchRecipesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DeleteRecipeFragment extends Fragment implements View.OnClickListener {
-    private BackendApi backendApi;
+public class SearchRecipesFragment extends Fragment implements View.OnClickListener {
+    private static OnFragmentInteractionListener mListener;
     private ArrayAdapter<Recipe> adapter;
-    private OnFragmentInteractionListener mListener;
+    private BackendApi backendApi;
 
-    public DeleteRecipeFragment() {
+    public SearchRecipesFragment() {
         // Required empty public constructor
     }
 
-    public static DeleteRecipeFragment newInstance(BackendApi backendApi) {
-        DeleteRecipeFragment fragment = new DeleteRecipeFragment();
+    public static SearchRecipesFragment newInstance(BackendApi backendApi) {
+        SearchRecipesFragment fragment = new SearchRecipesFragment();
         Bundle args = new Bundle();
         args.putSerializable(Constants.BACKEND_API, backendApi);
         fragment.setArguments(args);
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            backendApi = (BackendApi) getArguments().getSerializable(Constants.BACKEND_API);
-        }
+    public static void setInteractionListener(OnFragmentInteractionListener listener) {
+        mListener = listener;
     }
 
     @Override
-    public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container,
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            backendApi = (BackendApi) getArguments().getSerializable(Constants.BACKEND_API);
+            if(backendApi != null) backendApi.recipes.clear();
+        }
+
+    }
+
+    @Override
+    public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_delete_recipe, container, false);
-        view.findViewById(R.id.delete_recipe_button).setOnClickListener(this);
+        // Inflate the layout for this fragment
+        View view =  inflater.inflate(R.layout.fragment_search_recipes, container, false);
+        view.findViewById(R.id.search_recipes_submit).setOnClickListener(this);
 
         adapter = new ArrayAdapter<Recipe>(
                 this.getContext(),
@@ -74,36 +77,38 @@ public class DeleteRecipeFragment extends Fragment implements View.OnClickListen
                                 @NonNull ViewGroup parent) {
                 View listItemView = convertView;
                 if(listItemView == null) {
-                    listItemView = inflater.inflate(R.layout.delete_recipe_list_item, null);
+                    listItemView = inflater.inflate(R.layout.search_recipes_item, null);
                 }
 
-                CheckBox checkBoxItem = listItemView.findViewById(R.id.delete_recipe_checkbox_item);
-                checkBoxItem.setText(backendApi.recipes.get(position).getName());
+                TextView recipeItem = listItemView.findViewById(R.id.search_recipes_item_text);
+                final Recipe recipe = backendApi.recipes.get(position);
+                if(recipe != null) {
+                    recipeItem.setText(recipe.getName());
+
+                    listItemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mListener.onFragmentInteraction(recipe);
+                        }
+                    });
+                }
 
                 return listItemView;
             }
         };
 
-        ((ListView) view.findViewById(R.id.delete_recipe_list)).setAdapter(adapter);
-        backendApi.getAllRecipesWidgetAdapter(this.getContext(), adapter);
+        ((ListView) view.findViewById(R.id.search_recipes_list)).setAdapter(adapter);
         return view;
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.delete_recipe_button) {
-            List<String> recipeList = new ArrayList<>();
-
-            ListView listView = this.getActivity().findViewById(R.id.delete_recipe_list);
-            int count = listView.getChildCount();
-            for(int i = 0; i < count; i++) {
-                CheckBox checkBox = listView.getChildAt(i).findViewById(R.id.delete_recipe_checkbox_item);
-                if(checkBox.isChecked()) {
-                    recipeList.add(checkBox.getText().toString());
-                }
-            }
-
-            backendApi.deleteRecipes(this.getContext(), recipeList, adapter);
+        if(v.getId() == R.id.search_recipes_submit) {
+            String spices = ((EditText) this.getActivity().findViewById(R.id.search_recipes_spices))
+                    .getText().toString();
+            String ingredients = ((EditText) this.getActivity().findViewById(R.id.search_recipes_ingredients))
+                    .getText().toString();
+            backendApi.searchRecipes(this.getContext(), spices, ingredients, adapter);
         }
     }
 
@@ -118,6 +123,6 @@ public class DeleteRecipeFragment extends Fragment implements View.OnClickListen
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(Recipe item);
     }
 }
