@@ -1,11 +1,15 @@
 package com.mnvsngv.cookbook.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -36,16 +40,19 @@ public class RecipeViewActivity extends AppCompatActivity {
                 // create a frame layout
                 FrameLayout fragmentLayout = new FrameLayout(RecipeViewActivity.this);
                 // set the layout params to fill the activity
-                fragmentLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                FrameLayout.LayoutParams params =
+                        new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                fragmentLayout.setLayoutParams(params);
                 // set an id to the layout
                 int id = View.generateViewId();
                 fragmentLayout.setId(id); // some positive integer
                 // set the layout as Activity content
                 setContentView(fragmentLayout);
-                // Finally , add the fragment
+                // set margin
+                // Finally, add the fragment
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .add(id,AddRecipeFragment.newInstance(new BackendApi(RecipeViewActivity.this), recipe))
+                        .add(id, AddRecipeFragment.newInstance(new BackendApi(RecipeViewActivity.this), recipe))
                         .commit();  // 1000 - is the id set for the container layout
             }
         });
@@ -60,6 +67,14 @@ public class RecipeViewActivity extends AppCompatActivity {
 
         toolbar.setTitle(recipe.getName());
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 }
