@@ -13,11 +13,11 @@ import com.mnvsngv.cookbook.R;
 import com.mnvsngv.cookbook.backend.BackendApi;
 import com.mnvsngv.cookbook.models.Recipe;
 import com.mnvsngv.cookbook.util.Constants;
-
-import static com.mnvsngv.cookbook.util.Constants.BACKEND_API;
+import com.mnvsngv.cookbook.util.Utils;
 
 public class AddRecipeFragment extends Fragment implements View.OnClickListener {
     private BackendApi backendApi = null;
+    private Recipe recipe = null;
 
     public AddRecipeFragment() {
         // Required empty public constructor
@@ -29,6 +29,7 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener 
 
         if (getArguments() != null) {
             backendApi = (BackendApi) getArguments().getSerializable(Constants.BACKEND_API);
+            recipe = (Recipe) getArguments().getSerializable(Constants.RECIPE_KEY);
         }
     }
 
@@ -40,13 +41,30 @@ public class AddRecipeFragment extends Fragment implements View.OnClickListener 
 
         view.findViewById(R.id.add_recipe_save).setOnClickListener(this);
         view.findViewById(R.id.add_recipe_clear).setOnClickListener(this);
+
+        if(recipe != null) {
+            ((EditText) view.findViewById(R.id.add_recipe_name)).setText(recipe.getName());
+            ((EditText) view.findViewById(R.id.add_recipe_spices)).setText(Utils.convertListToCsv(recipe.getSpices()));
+            ((EditText) view.findViewById(R.id.add_recipe_ingredients)).setText(Utils.convertListToCsv(recipe.getIngredients()));
+            ((EditText) view.findViewById(R.id.add_recipe_steps)).setText(recipe.getSteps());
+        }
+
         return view;
     }
 
     public static AddRecipeFragment newInstance(BackendApi backendApi) {
         AddRecipeFragment fragment = new AddRecipeFragment();
         Bundle args = new Bundle();
-        args.putSerializable(BACKEND_API, backendApi);
+        args.putSerializable(Constants.BACKEND_API, backendApi);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static AddRecipeFragment newInstance(BackendApi backendApi, Recipe recipe) {
+        AddRecipeFragment fragment = new AddRecipeFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(Constants.BACKEND_API, backendApi);
+        args.putSerializable(Constants.RECIPE_KEY, recipe);
         fragment.setArguments(args);
         return fragment;
     }

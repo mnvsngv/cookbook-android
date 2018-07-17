@@ -100,6 +100,7 @@ public class DeleteRecipeFragment extends Fragment implements View.OnClickListen
                 CheckBox checkBox = listView.getChildAt(i).findViewById(R.id.delete_recipe_checkbox_item);
                 if(checkBox.isChecked()) {
                     recipeList.add(checkBox.getText().toString());
+                    checkBox.setChecked(false);
                 }
             }
 
