@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
-    android:name="com.mnvsngv.cookbook.fragments.RecipeFragment"
+    android:id="@+id/fragment_recipe_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutManager="LinearLayoutManager"
-    tools:context=".fragments.RecipeListFragment"
-    tools:listitem="@layout/fragment_recipe" />
+    tools:context=".fragments.RecipeListFragment">
+
+    <include
+        layout="@layout/recipe_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_recipe_fab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@android:drawable/ic_menu_add" />
+</android.support.design.widget.CoordinatorLayout>

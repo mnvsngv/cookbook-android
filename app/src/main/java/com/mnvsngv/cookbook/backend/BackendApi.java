@@ -1,12 +1,9 @@
 package com.mnvsngv.cookbook.backend;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,8 +19,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.mnvsngv.cookbook.R;
-import com.mnvsngv.cookbook.fragments.adapter.MyRecipeRecyclerViewAdapter;
 import com.mnvsngv.cookbook.models.Recipe;
 import com.mnvsngv.cookbook.util.JsonUtils;
 
@@ -33,11 +28,8 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Function;
 
 public class BackendApi implements Serializable {
     private static final String BASE_URI = "https://cookbook-208607.appspot.com";

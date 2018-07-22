@@ -3,12 +3,14 @@ package com.mnvsngv.cookbook.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.mnvsngv.cookbook.R;
 import com.mnvsngv.cookbook.backend.BackendApi;
@@ -58,7 +60,8 @@ public class RecipeListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recipe_list, container, false);
+        View parentView = inflater.inflate(R.layout.fragment_recipe_list, container, false);
+        View view = parentView.findViewById(R.id.recipe_list);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -72,7 +75,16 @@ public class RecipeListFragment extends Fragment {
 
             backendApi.getAllRecipesRecyclerViewAdapter(this.getContext(), mAdapter);
         }
-        return view;
+
+        FloatingActionButton fab = parentView.findViewById(R.id.add_recipe_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "Convert AddRecipeFragment to an Activity!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return parentView;
     }
 
     /**

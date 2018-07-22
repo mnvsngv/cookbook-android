@@ -1,6 +1,5 @@
 package com.mnvsngv.cookbook.fragments;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.mnvsngv.cookbook.R;
 import com.mnvsngv.cookbook.backend.BackendApi;
@@ -19,7 +17,6 @@ import com.mnvsngv.cookbook.models.Recipe;
 import com.mnvsngv.cookbook.util.Constants;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
